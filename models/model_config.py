@@ -34,6 +34,7 @@ _model_name_to_imagenet_model = {
     'vgg11': vgg_model.Vgg11Model,
     'vgg16': vgg_model.Vgg16Model,
     'vgg19': vgg_model.Vgg19Model,
+    'vgg19_200MP': vgg_model.Vgg19Model_200MP,
     'lenet': lenet_model.Lenet5Model,
     'googlenet': googlenet_model.GooglenetModel,
     'overfeat': overfeat_model.OverfeatModel,
