@@ -14,6 +14,7 @@
 # ==============================================================================
 """Base model configuration for CNN benchmarks."""
 import tensorflow as tf
+import numpy as np
 
 import convnet_builder
 
@@ -119,6 +120,7 @@ class CNNModel(Model):
       logits = tf.cast(logits, tf.float32)
       if aux_logits is not None:
         aux_logits = tf.cast(aux_logits, tf.float32)
+    print('Total trainable variables per GPU:{:,}'.format(np.sum([np.prod(v.get_shape().as_list()) for v in tf.trainable_variables()])))
     return logits, aux_logits
 
   # Subclasses can override this to define their own loss function. By default,
