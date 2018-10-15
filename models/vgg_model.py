@@ -28,7 +28,7 @@ from six.moves import xrange  # pylint: disable=redefined-builtin
 from models import model
 
 
-def _construct_vgg(cnn, num_conv_layers):
+def _construct_vgg(cnn, num_conv_layers, fc_layers=[4096, 4096]):
   """Build vgg architecture from blocks."""
   assert len(num_conv_layers) == 5
   for _ in xrange(num_conv_layers[0]):
@@ -47,9 +47,9 @@ def _construct_vgg(cnn, num_conv_layers):
     cnn.conv(512, 3, 3)
   cnn.mpool(2, 2)
   cnn.reshape([-1, 512 * 7 * 7])
-  cnn.affine(4096)
+  cnn.affine(fc_layers[0])
   cnn.dropout()
-  cnn.affine(4096)
+  cnn.affine(fc_layers[1])
   cnn.dropout()
 
 
@@ -78,3 +78,13 @@ class Vgg19Model(model.CNNModel):
 
   def add_inference(self, cnn):
     _construct_vgg(cnn, [2, 2, 4, 4, 4])
+
+
+class Vgg19Model_200MP(model.CNNModel):
+
+  def __init__(self):
+    super(Vgg19Model_200MP, self).__init__('vgg19', 224, 64, 0.005)
+
+  def add_inference(self, cnn):
+    _construct_vgg(cnn, [2, 2, 4, 4, 4], [6000, 6000])
+    
